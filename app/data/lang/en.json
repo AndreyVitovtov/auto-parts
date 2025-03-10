@@ -39,6 +39,18 @@
   "are you sure you want to remove the administrator": "Are you sure you want to remove the administrator?",
   "deletion confirmation": "Deletion confirmation",
   "administrator deleted": "Administrator deleted",
-  "changes saved": "Changes saved"
+  "changes saved": "Changes saved",
 
+  "categories": "Categories",
+  "products": "Products",
+  "orders": "Orders",
+  "all": "All",
+  "new": "New",
+  "title": "Title",
+  "description": "Description",
+  "image": "Image",
+  "parent category": "Parent category",
+  "no": "No",
+  "add category": "Add category",
+  "category added": "Category added"
 }

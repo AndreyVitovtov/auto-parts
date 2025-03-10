@@ -13,7 +13,7 @@ class Main extends Controller
 
 	public function index(): void
 	{
-		$this->auth()->view('dashboard', [
+		$this->auth()->viewAdmin('dashboard', [
 			'title' => __('dashboard'),
 			'pageTitle' => __('dashboard'),
 			'assets' => [

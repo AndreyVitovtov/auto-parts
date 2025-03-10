@@ -1,4 +1,4 @@
-<?php use app\utility\Request; ?>
+<?php use App\Utility\Request; ?>
 
 <!doctype html>
 <html lang="en">
@@ -7,16 +7,16 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= $title ?? '' ?> | <?= PROJECT_NAME ?></title>
+    <title><?= $title ?? '' ?></title>
     <link rel="stylesheet" href="<?= assets('css/bootstrap.min.css') ?> ">
+    <link rel="stylesheet" href="<?= assets('css/all.min.css') ?> ">
     <link rel="stylesheet" href="<?= assets('css/fontello/fontello.css') ?> ">
-    <link rel="stylesheet" href="<?= assets('css/' . theme() . '.css') ?> ">
     <link rel="stylesheet" href="<?= assets('css/main.css') ?>">
     <link rel="stylesheet" href="<?= assets('css/media.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= assets('images/favicon.png') ?>">
     <script src="<?= assets('js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= assets('js/jquery-3.7.1.min.js') ?>"></script>
-    <script src="<?= assets('js/main.js') ?>"></script>
+<!--    <script src="--><?php //= assets('js/main.js') ?><!--"></script>-->
 	<?php
 	if (isset($assets['css'])) {
 		echo implode("\n", array_map(function ($v) {
@@ -32,111 +32,88 @@
 	?>
 </head>
 <body>
-<?php if (isAuth()): ?>
-    <div class="flex">
-        <div class="menu desk">
-			<?php require 'menu.php' ?>
+<header class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light container d-flex justify-content-between">
+        <!-- Логотип -->
+        <a class="navbar-brand" href="/"><?= LOGO ?></a>
+
+        <!-- Кнопка для мобильного меню -->
+        <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Меню -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <!-- Поиск на десктопе -->
+            <div class="d-none d-lg-flex justify-content-center flex-grow-1 mx-3">
+                <form class="d-flex w-50" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Поиск..." aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="submit">Найти</button>
+                </form>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/"><?= __('catalog') ?></a></li>
+                <li class="nav-item"><a class="nav-link" href="/about"><?= __('about') ?></a></li>
+                <li class="nav-item"><a class="nav-link" href="/contacts"><?= __('contacts') ?></a></li>
+
+                <!-- Поиск для мобильных (в выпадающем меню) -->
+                <li class="nav-item d-lg-none mt-2">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Поиск..." aria-label="Search">
+                        <button class="btn btn-outline-secondary" type="submit">Найти</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-        <div class="menu mob animate-left">
-			<?php require 'menu.php' ?>
+    </nav>
+</header>
+<main>
+    <div class="main-content">
+		<?php if (!empty($template)) require_once $template . '.php'; ?>
+    </div>
+</main>
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <!-- Колонка 1: Контакты -->
+            <div class="col-md-4 mb-3">
+                <h5>Контакты</h5>
+                <ul class="list-unstyled">
+                    <li><a href="mailto:info@shop.com" class="text-white">info@shop.com</a></li>
+                    <li><a href="tel:+123456789" class="text-white">+1 234 567 89</a></li>
+                    <li><a href="#" class="text-white">Адрес магазина</a></li>
+                </ul>
+            </div>
+
+            <!-- Колонка 2: Быстрые ссылки -->
+            <div class="col-md-4 mb-3">
+                <h5>Быстрые ссылки</h5>
+                <ul class="list-unstyled">
+                    <li><a href="/" class="text-white">Главная</a></li>
+                    <li><a href="/catalog" class="text-white">Каталог</a></li>
+                    <li><a href="/about" class="text-white">О нас</a></li>
+                    <li><a href="/contacts" class="text-white">Контакты</a></li>
+                </ul>
+            </div>
+
+            <!-- Колонка 3: Социальные сети -->
+            <div class="col-md-4 mb-3">
+                <h5>Следите за нами</h5>
+                <ul class="list-unstyled d-flex">
+                    <li><a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a></li>
+                    <li><a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+            </div>
         </div>
-        <div class="content">
-			<?php if (!empty($error) || !empty(Request::get('error'))): ?>
-                <div class="alert alert-danger position-absolute alert-message" role="alert">
-					<?= $error ?? Request::get('error') ?>
-                </div>
-			<?php endif;
-			if (!empty($message) || !empty(Request::get('message'))): ?>
-                <div class="alert alert-success position-absolute alert-message" role="alert">
-					<?= $message ?? Request::get('message') ?>
-                </div>
-			<?php endif; ?>
-            <div class="header flex-between">
-                <div class="menu-button btn desk">
-                    <i class="icon-cancel"></i>
-                </div>
-                <div class="menu-button btn mob">
-                    <i class="icon-menu"></i>
-                </div>
-                <div class="user flex-between">
-                    <div class="dropdown search">
-                        <div class="dropdown-toggle" type="button" id="search" data-bs-toggle="dropdown">
-                            <i class="icon-search"></i>
-                        </div>
-                        <div class="dropdown-menu w-auto dropdown-menu-search" aria-labelledby="search">
-                            <form action="/search" method="GET">
-                                <div class="flex">
-                                    <label>
-                                        <input type="search" name="search" placeholder="<?= __('search') ?>">
-                                    </label>
-                                    <button><i class="icon-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <a href="/theme/change/<?= (theme() == 'dark' ? 'light' : 'dark') ?>/<?= getCurrentUrl(true) ?>">
-                        <div class="theme <?= theme() ?>">
-                            <div><i class="icon-sun"></i></div>
-                            <div><i class="icon-moon"></i></div>
-                            <div class="theme-switcher"></div>
-                        </div>
-                    </a>
-                    <div class="dropdown language">
-                        <div class="dropdown-toggle flex-between" type="button" id="language" data-bs-toggle="dropdown">
-                            <img src="<?= assets('images/' . getLanguage('image')) ?>"
-                                 alt="<?= getLanguage('title') ?>"> &nbsp;<span
-                                    class="desk"><?= getLanguage('title') ?></span>
-                        </div>
-                        <ul class="dropdown-menu dropdown-menu-language" aria-labelledby="language">
-							<?= implode("\n", array_map(function ($v) {
-								return '<li>
-                                    <a class="dropdown-item" href="/language/change/' . $v . '/' . getCurrentUrl(true) . '">
-                                        <img src="' . assets('images/' . $v . '.png') . '" alt="' . getLanguage('title', $v) . '"> 
-                                        <span class="desk">' . getLanguage('title', $v) . '</span>
-                                    </a>
-                                </li>';
-							}, array_filter(array_keys(LANGUAGES), function ($k) {
-								return getCurrentLang() != $k;
-							}))) ?>
-                        </ul>
-                    </div>
-                    <div class="dropdown">
-                        <div class="dropdown-toggle dropdown-admin flex-between" type="button" id="user"
-                             data-bs-toggle="dropdown">
-                            <div class="avatar"
-                                 style="background-image: url('<?= assets('images/avatars/' . user('avatar', 'avatar.png')) ?>')">
-                            </div>
-                            <span class="desk">
-                                <?= ucfirst(user('name')) ?>
-                            </span>
-                        </div>
-                        <ul class="dropdown-menu dropdown-menu-user" aria-labelledby="user">
-                            <li>
-                                <a class="dropdown-item" href="/admin/settings">
-                                    <i class="icon-cogs"></i> <?= __('settings') ?>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="/auth/logout">
-                                    <i class="icon-logout-1"></i> <?= __('logout') ?>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="page-title">
-				<?= $pageTitle ?? '' ?>
-            </div>
-            <div class="main-content">
-				<?php if (!empty($template)) require_once $template . '.php'; ?>
-            </div>
-            <div class="footer">
-                <div class="copyright"><?= VERSION ?> © 2024</div>
+
+        <div class="row">
+            <div class="col text-center">
+                <p class="mb-0">&copy; 2025 Мой Магазин. Все права защищены.</p>
             </div>
         </div>
     </div>
-<?php elseif (!empty($template)): require_once $template . '.php'; endif;
-require_once 'modal.php'; ?>
+</footer>
+
 </body>
 </html>

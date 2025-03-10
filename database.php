@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\Database;
+use App\Utility\Database;
 
 require_once 'vendor/autoload.php';
 
@@ -90,3 +90,7 @@ try {
 	$dbh->rollBack();
 	dd($e->getMessage());
 }
+
+//CREATE USER 'auto-parts'@'localhost' IDENTIFIED BY '0e508EOTx';
+//GRANT ALL PRIVILEGES ON `auto-parts`.* TO 'auto-parts'@'localhost';
+//FLUSH PRIVILEGES;

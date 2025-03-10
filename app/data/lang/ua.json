@@ -22,5 +22,18 @@
   "file size must be less": "Розмір файлу має бути менше ніж {mb} MB",
   "failed to upload file": "Не вдалося завантажити файл",
   "access denied": "Access denied",
-  "page not found": "Page not found"
+  "page not found": "Page not found",
+
+  "categories": "Категорії",
+  "products": "Товари",
+  "orders": "Замовлення",
+  "all": "Всі",
+  "new": "Нові",
+  "title": "Назва",
+  "description": "Опис",
+  "image": "Зображення",
+  "parent category": "Батьківська категорія",
+  "no": "Немає",
+  "add category": "Додати категорію",
+  "category added": "Категорію додано"
 }

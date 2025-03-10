@@ -4,39 +4,66 @@ $menu = [
 	[
 		'title' => __('dashboard'),
 		'icon' => 'chart-bar-1',
-		'address' => '/',
+		'address' => '/admin/',
 		'controller' => 'Main'
 	], [
-		'title' => __('users'),
-		'icon' => 'group',
-		'address' => '/users',
-		'controller' => 'Users'
-	], [
-		'title' => __('mailing'),
-		'icon' => 'mail',
-		'controller' => 'Mailing',
+		'title' => __('categories'),
+		'icon' => 'archive',
+		'controller' => 'Categories',
         'forbid' => ['guest'],
 		'items' => [
 			[
 				'title' => __('add'),
-				'address' => '/mailing/add',
+				'address' => '/admin/categories/add',
 				'method' => 'add'
 			], [
-				'title' => __('archive'),
-				'address' => '/mailing/archive',
-				'method' => 'archive'
+				'title' => __('all'),
+				'address' => '/admin/categories/all',
+				'method' => 'all'
 			]
 		]
 	], [
+		'title' => __('products'),
+		'icon' => 'barcode',
+		'controller' => 'Products',
+        'forbid' => ['guest'],
+		'items' => [
+			[
+				'title' => __('add'),
+				'address' => '/admin/products/add',
+				'method' => 'add'
+			], [
+				'title' => __('all'),
+				'address' => '/admin/products/all',
+				'method' => 'all'
+			]
+		]
+	], [
+		'title' => __('orders'),
+		'icon' => 'folder-open',
+		'controller' => 'Orders',
+        'forbid' => ['guest'],
+		'items' => [
+			[
+				'title' => __('new'),
+				'address' => '/admin/orders/new',
+				'method' => 'new'
+			], [
+				'title' => __('archive'),
+				'address' => '/admin/orders/archive',
+				'method' => 'archive'
+			]
+		]
+	],[
 		'title' => __('administrators'),
 		'icon' => 'star',
-		'address' => '/administrators',
+		'address' => '/admin/administrators',
 		'controller' => 'Administrators',
 		'assets' => ['superadmin']
 	], [
 		'title' => __('settings'),
 		'icon' => 'cogs',
-		'address' => '/settings',
+		'address' => '/admin/settings',
 		'controller' => 'Settings',
 		'assets' => [],
 		'forbid' => ['guest']
@@ -45,7 +72,7 @@ $menu = [
 ?>
 
 <div class="logo">
-    <a href="/">
+    <a href="/admin/">
 		<?= PROJECT_NAME ?>
     </a>
 </div>

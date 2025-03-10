@@ -25,7 +25,7 @@ class Administrators extends Controller
 
 	public function index()
 	{
-		$this->auth()->view('index', [
+		$this->auth()->viewAdmin('index', [
 			'title' => __('administrators'),
 			'pageTitle' => __('administrators'),
 			'administrators' => (new Model)->query("
@@ -39,7 +39,7 @@ class Administrators extends Controller
 
 	public function add()
 	{
-		$this->auth()->view('add', [
+		$this->auth()->viewAdmin('add', [
 			'title' => __('add administrator'),
 			'pageTitle' => __('add administrator'),
 			'roles' => (new Role)->get([], '', 'title')
@@ -52,7 +52,7 @@ class Administrators extends Controller
 		if (!is_null($request->name) && !is_null($request->login) && !is_null($request->password) &&
 			!is_null($request->repeatPassword) && !is_null($request->role)) {
 			if ($request->password != $request->repeatPassword) {
-				redirect('/administrators/add', [
+				redirect('/admin/administrators/add', [
 					'error' => __('password mismatch'),
 					'name' => $request->name,
 					'login' => $request->login
@@ -62,7 +62,7 @@ class Administrators extends Controller
 				if (!empty($admin->get([
 					'login' => $request->login
 				]))) {
-					redirect('/administrators/add', [
+					redirect('/admin/administrators/add', [
 						'error' => __('administrator with this login already exists'),
 						'name' => $request->name,
 						'login' => $request->login
@@ -74,13 +74,13 @@ class Administrators extends Controller
 					$admin->role = $request->role;
 					$admin->avatar = '';
 					$admin->insert();
-					redirect('/administrators', [
+					redirect('/admin/administrators', [
 						'message' => __('administrator added')
 					]);
 				}
 			}
 		} else {
-			redirect('/administrators/add', [
+			redirect('/admin/administrators/add', [
 				'error' => __('submit all required parameters')
 			]);
 		}
@@ -94,7 +94,7 @@ class Administrators extends Controller
 			$admin = new AdminModel();
 			$admin->delete($id);
 		}
-		redirect('/administrators', [
+		redirect('/admin/administrators', [
 			'message' => __('administrator deleted')
 		]);
 	}
@@ -107,7 +107,7 @@ class Administrators extends Controller
 			redirect('/404');
 		} else {
 			$role = new Role();
-			$this->auth()->view('edit', array_merge([
+			$this->auth()->viewAdmin('edit', array_merge([
 				'title' => __('edit administrator'),
 				'pageTitle' => __('edit administrator')
 			], $admin, ['roles' => $role->get([], '', 'title')]));
@@ -123,13 +123,13 @@ class Administrators extends Controller
 		if (!is_null($request->name) && !is_null($request->login) && !is_null($request->role)) {
 			if (!is_null($request->password)) {
 				if (is_null($request->repeatPassword)) {
-					redirect('/administrators/edit/' . $id, [
+					redirect('/admin/administrators/edit/' . $id, [
 						'error' => __('send all required parameters')
 					]);
 					exit;
 				} else {
 					if ($request->password != $request->repeatPassword) {
-						redirect('/administrators/edit/' . $id, [
+						redirect('/admin/administrators/edit/' . $id, [
 							'error' => __('password mismatch')
 						]);
 						exit;
@@ -142,11 +142,11 @@ class Administrators extends Controller
 			$admin->login = $request->login;
 			$admin->role = $request->role;
 			$admin->update();
-			redirect('/administrators', [
+			redirect('/admin/administrators', [
 				'message' => __('changes saved')
 			]);
 		} else {
-			redirect('/administrators/edit/' . $id, [
+			redirect('/admin/administrators/edit/' . $id, [
 				'error' => __('send all required parameters')
 			]);
 		}

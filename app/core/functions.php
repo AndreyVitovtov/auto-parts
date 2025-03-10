@@ -22,63 +22,60 @@ function getControllerAndMethod(): array
 	$url = array_values(array_filter(explode('/', $_SERVER['REQUEST_URI']), function ($v) {
 		return !empty(trim($v));
 	}));
-	if (empty($url) || (isset($url[0][0]) && $url[0][0] === '?')) {
-		$controllerName = 'Main';
+
+	$params = [];
+
+	if (empty($url)) {
+		$controllerName = HOME_CONTROLLER;
 		$method = 'index';
-		if (isset($url[0][0]) && $url[0][0] === '?') {
-			$params = explode('&', substr($url[0], 1));
-			$params = array_map(function ($v) {
-				$v = explode('=', $v);
-				return [
-					$v[0] => $v[1]
-				];
-			}, $params);
+	} elseif ($url[0] === 'admin') {
+		if (!isset($url[1])) {
+			$controllerName = 'Main';
+			$method = 'index';
 		} else {
-			$params = [];
+			$controllerName = ucfirst($url[1]);
+			$method = isset($url[2]) && !is_numeric($url[2]) ? $url[2] : 'index';
+			unset($url[0], $url[1], $url[2]);
 		}
+		$isAdmin = true;
 	} else {
 		$controllerName = ucfirst($url[0]);
-		if (strpos($controllerName, '?') !== false) {
-			$cn = explode('?', $controllerName);
-			$controllerName = $cn[0];
-			$params = explode('&', $cn[1]);
-			$params = array_map(function ($v) {
-				$v = explode('=', $v);
-				return [
-					$v[0] => $v[1]
-				];
-			}, $params);
-		}
-		if (isset($url[1])) {
-			if (is_numeric($url[1]) || empty($url[1])) {
-				$method = 'index';
-			} else $method = $url[1];
-			if (strpos($method, '?') !== false) {
-				$m = explode('?', $method);
-				$method = $m[0];
-				$params = explode('&', $m[1]);
-				$params = array_map(function ($v) {
-					$v = explode('=', $v);
-					return [
-						$v[0] => $v[1]
-					];
-				}, $params);
-			}
-		} else $method = 'index';
+		$method = isset($url[1]) && !is_numeric($url[1]) ? $url[1] : 'index';
 		unset($url[0], $url[1]);
-		$params = array_merge($params ?? [], explode('/', implode('/', $url)));
 	}
 
-	global $cName;
-	global $cMethod;
+	if (strpos($controllerName, '?') !== false) {
+		[$controllerName, $queryString] = explode('?', $controllerName, 2);
+		$params = parseParams($queryString);
+	}
+	if (strpos($method, '?') !== false) {
+		[$method, $queryString] = explode('?', $method, 2);
+		$params = array_merge($params, parseParams($queryString));
+	}
+
+	$params = array_merge($params, $url);
+
+	global $cName, $cMethod;
 	$cName = $controllerName;
 	$cMethod = $method;
 
 	return [
 		'controllerName' => $controllerName,
 		'method' => $method,
-		'params' => $params
+		'params' => $params,
+		'isAdmin' => $isAdmin ?? false
 	];
+}
+
+function parseParams($queryString)
+{
+	return array_reduce(explode('&', $queryString), function ($carry, $item) {
+		$parts = explode('=', $item, 2);
+		if (count($parts) === 2) {
+			$carry[$parts[0]] = $parts[1];
+		}
+		return $carry;
+	}, []);
 }
 
 function handleRoute()
@@ -90,20 +87,24 @@ function handleRoute()
 	$controllerClass = "App\\Controllers\\$controllerName";
 	if (!class_exists($controllerClass)) {
 		header("HTTP/1.0 404 Not Found");
-		(new App\Controllers\Errors)->error404();
+		(new App\Controllers\Errors)->error404($isAdmin);
 		exit;
 	}
 
 	$controllerInstance = new $controllerClass();
 	if (method_exists($controllerInstance, $method)) {
 		$params[] = (new \App\Utility\Request());
-		$params = array_filter($params, function($v) {
+		$params = array_filter($params, function ($v) {
 			return !empty($v);
 		});
 		$controllerInstance->$method(...$params);
 	} else {
-		header("HTTP/1.0 404 Not Found");
-		(new App\Controllers\Errors)->error404();
+		if (method_exists($controllerInstance, 'index')) {
+			$controllerInstance->index(...array_merge($params, [$method]));
+		} else {
+			header("HTTP/1.0 404 Not Found");
+			(new App\Controllers\Errors)->error404($isAdmin);
+		}
 	}
 }
 

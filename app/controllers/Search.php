@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use app\utility\Request;
+use App\Utility\Request;
 
 class Search extends Controller
 {
 	public function index(Request $request)
 	{
-		$this->auth()->view('index', [
+		$this->auth()->viewAdmin('index', [
 			'title' => 'Search',
 			'pageTitle' => 'Searching results: "' . $request->search . '"'
 		]);

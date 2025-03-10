@@ -5,11 +5,11 @@ namespace App\Controllers;
 use App\Models\AdminModel;
 use App\Utility\Request;
 
-class Admin extends Controller
+class Administrator extends Controller
 {
 	public function settings()
 	{
-		$this->auth()->view('settings', [
+		$this->auth()->viewAdmin('settings', [
 			'title' => __('settings'),
 			'pageTitle' => __('settings')
 		]);
@@ -21,7 +21,7 @@ class Admin extends Controller
 		if ($request->login != user('login') && !empty($admin->get([
 				'login' => $request->login
 			]))) {
-			redirect('/admin/settings', [
+			redirect('/admin/administrator/settings', [
 				'error' => __('administrator with this login already exists')
 			]);
 		} else {
@@ -31,7 +31,7 @@ class Admin extends Controller
 
 			if (!is_null($request->password)) {
 				if (is_null($request->repeatPassword)) {
-					redirect('/admin/settings', [
+					redirect('/admin/administrator/settings', [
 						'error' => __('send all required parameters')
 					]);
 					exit;
@@ -39,7 +39,7 @@ class Admin extends Controller
 					if ($request->password == $request->repeatPassword) {
 						$admin->password = md5($request->password);
 					} else {
-						redirect('/admin/settings', [
+						redirect('/admin/administrator/settings', [
 							'error' => __('password mismatch')
 						]);
 						exit;
@@ -58,7 +58,7 @@ class Admin extends Controller
 				$extensions = EXTENSIONS_AVATAR;
 
 				if (in_array($fileExt, $extensions) === false) {
-					redirect('/admin/settings', [
+					redirect('/admin/administrator/settings', [
 						'error' => __('extension not allowed', [
 							'extensions' => implode(', ', EXTENSIONS_AVATAR)
 						])
@@ -67,7 +67,7 @@ class Admin extends Controller
 				}
 
 				if ($fileSize > (MAX_SIZE_AVATAR * 1024 * 1024)) {
-					redirect('/admin/settings', [
+					redirect('/admin/administrator/settings', [
 						'error' => __('file size must be less', [
 							'mb' => MAX_SIZE_AVATAR
 						])
@@ -82,13 +82,13 @@ class Admin extends Controller
 						}
 						$admin->avatar = $fileName;
 					} else {
-						redirect('/admin/settings', [
+						redirect('/admin/administrator/settings', [
 							'error' => __('failed to upload file')
 						]);
 						exit;
 					}
 				} else {
-					redirect('/admin/settings', [
+					redirect('/admin/administrator/settings', [
 						'error' => $errors
 					]);
 					exit;
@@ -101,7 +101,7 @@ class Admin extends Controller
 				'name' => $admin->name,
 				'avatar' => $admin->avatar
 			]);
-			redirect('/admin/settings', [
+			redirect('/admin/administrator/settings', [
 				'message' => __('changes saved')
 			]);
 		}

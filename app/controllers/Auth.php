@@ -22,10 +22,10 @@ class Auth extends Controller
 			$_SESSION['name'] = $admin->name;
 			$_SESSION['role'] = (new Role)->find($admin->role)->title;
 			$_SESSION['avatar'] = $admin->avatar;
-			redirect('/');
+			redirect('/admin/');
 		}
 
-		$this->view('auth', [
+		$this->viewAdmin('auth', [
 			'title' => 'LogIn',
 			'assets' => [
 				'css' => 'auth.css'
@@ -42,7 +42,7 @@ class Auth extends Controller
 			'password' => md5($request->password)
 		]);
 		if (empty($adminData)) {
-			redirect('/auth', [
+			redirect('/admin/auth', [
 				'error' => __('incorrect login or password')
 			]);
 		} else {
@@ -56,7 +56,7 @@ class Auth extends Controller
 			$_SESSION['name'] = $adminData['name'];
 			$_SESSION['role'] = (new Role)->find($adminData['role'])->title;
 			$_SESSION['avatar'] = $adminData['avatar'];
-			redirect('/');
+			redirect('/admin/');
 		}
 	}
 
@@ -66,6 +66,6 @@ class Auth extends Controller
 		unset($_COOKIE['rememberid']);
 
 		sessionDestroy();
-		redirect('/');
+		redirect('/admin/');
 	}
 }
