@@ -1,9 +1,10 @@
 <style>
     .card {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100px;
+        min-height: 120px;
         border: 1px solid #ddd;
         border-radius: 8px;
         background-color: #f8f9fa;
@@ -12,6 +13,11 @@
         text-align: center;
         cursor: pointer;
         transition: 0.3s;
+    }
+
+    .card .card-image img {
+        width: 80px;
+        height: 80px;
     }
 
     .card:hover {
@@ -49,7 +55,12 @@
         <div class="row g-3">
 			<?php foreach ($categories as $category): ?>
                 <a href="/category/<?= $category['slug'] ?>" class="col-6 col-md-4 col-lg-3">
-                    <div class="card"><?= nl2br($category['title']) ?></div>
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="<?= assets('images/categories/' . $category['image']) ?>" alt="image">
+                        </div>
+                        <div><?= nl2br($category['title']) ?></div>
+                    </div>
                 </a>
 			<?php endforeach; ?>
         </div>
@@ -58,8 +69,8 @@
 	<?php if (!empty($products)): ?>
         <div class="row g-3">
 			<?php foreach ($products as $product): ?>
-                <a href="/product/<?= $product['slug'] ?>" class="col-6 col-md-4 col-lg-3">
-                    <div class="card"><?= nl2br($product['title']) ?></div>
+                <a href="/product/<?= $product->slug ?>" class="col-6 col-md-4 col-lg-3">
+                    <div class="card"><?= nl2br($product->title) ?></div>
                 </a>
 			<?php endforeach; ?>
         </div>

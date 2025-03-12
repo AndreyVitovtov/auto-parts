@@ -23,7 +23,6 @@
   "cancel": "Cancel",
   "edit administrator": "Edit administrator",
   "remember me": "Remember me",
-
   "incorrect login or password": "Incorrect login or password",
   "password mismatch": "Password mismatch",
   "extension not allowed": "Extension not allowed, please choose a {extensions} file.",
@@ -35,12 +34,10 @@
   "administrator added": "Administrator added",
   "administrator with this login already exists": "Administrator with this login already exists",
   "send all required parameters": "Send all required parameters",
-
   "are you sure you want to remove the administrator": "Are you sure you want to remove the administrator?",
   "deletion confirmation": "Deletion confirmation",
   "administrator deleted": "Administrator deleted",
   "changes saved": "Changes saved",
-
   "categories": "Categories",
   "products": "Products",
   "orders": "Orders",
@@ -52,5 +49,10 @@
   "parent category": "Parent category",
   "no": "No",
   "add category": "Add category",
-  "category added": "Category added"
+  "category added": "Category added",
+  "add product": "Add product",
+  "category": "Category",
+  "price": "Price",
+  "currency": "Currency",
+  "count": "Count"
 }

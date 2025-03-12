@@ -15,7 +15,6 @@
   "avatar": "Аватар",
   "save": "Зберегти",
   "administrators": "Адміністратори",
-
   "incorrect login or password": "Неправильний логін або пароль",
   "password mismatch": "Паролі не збігаються",
   "extension not allowed": "Розширення не дозволено, виберіть файл {extensions}.",
@@ -23,7 +22,6 @@
   "failed to upload file": "Не вдалося завантажити файл",
   "access denied": "Access denied",
   "page not found": "Page not found",
-
   "categories": "Категорії",
   "products": "Товари",
   "orders": "Замовлення",
@@ -35,5 +33,10 @@
   "parent category": "Батьківська категорія",
   "no": "Немає",
   "add category": "Додати категорію",
-  "category added": "Категорію додано"
+  "category added": "Категорію додано",
+  "add product": "Додати продукт",
+  "category": "Категорія",
+  "price": "Ціна",
+  "currency": "Валюта",
+  "count": "Кількість"
 }

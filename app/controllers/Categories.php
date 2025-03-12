@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Category;
+use App\Utility\Files;
 use App\Utility\Request;
 
 class Categories extends Controller
@@ -45,7 +46,9 @@ class Categories extends Controller
 		$category->description = $request->description;
 		$category->slug = $this->slug($request->description);
 		$category->parent_id = $parent;
-		$category->image = 'sdg';
+
+		Files::saveImage('image', 'categories/', $category, '/admin/categories/add');
+
 		$category->insert();
 
 		redirect('/admin/categories/all', [

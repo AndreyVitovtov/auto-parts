@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Product;
+
 class Category extends Controller
 {
 	public function index($category = null): void
@@ -22,40 +24,19 @@ class Category extends Controller
 				WHERE `parent_id` IS NULL
 			", [], true);
 		}
+
+		if (empty($categories)) {
+			$products = (new Product())->getObjects([
+				'category_id' => $category->id
+			]);
+		}
+
 		$this->view('index', [
 			'title' => __('home'),
 			'categories' => $categories,
-			'categoryPath' => $this->getCategoryPath($category->id ?? 0),
-			'categoryTitle' => $category->title ?? null
+			'categoryPath' => (new \App\Models\Category())->getCategoryPath($category->id ?? 0),
+			'categoryTitle' => $category->title ?? null,
+			'products' => ($products ?? [])
 		]);
-	}
-
-	private function getCategoryPath($categoryId): array
-	{
-		$path = [];
-		$category = (new \App\Models\Category())->query("
-			SELECT *
-			FROM `categories` 
-			WHERE id = :id", [
-			'id' => $categoryId
-		], true)[0] ?? null;
-
-		while ($category) {
-			$path[] = $category;
-			$categoryId = $category['parent_id'];
-
-			if ($categoryId) {
-				$category = (new \App\Models\Category())->query("
-					SELECT * 
-					FROM `categories` 
-					WHERE `id` = :id
-				", [
-					'id' => $categoryId
-				], true)[0] ?? null;
-			} else {
-				break;
-			}
-		}
-		return array_reverse($path);
 	}
 }
