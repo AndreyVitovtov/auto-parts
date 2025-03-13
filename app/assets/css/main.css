@@ -17,3 +17,7 @@ header {
 main {
     margin-bottom: 15px;
 }
+
+.main-content {
+    min-height: 80vh;
+}
