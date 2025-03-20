@@ -26,9 +26,18 @@ class Category extends Controller
 		}
 
 		if (empty($categories)) {
-			$products = (new Product())->getObjects([
+			$products = (new Product())->query("
+				SELECT p.*, c.`title` AS currencyTitle, c.`code` AS currencyCode
+				FROM `products` p,
+				     `currencies` c
+				WHERE p.`currency_id` = c.`id`
+				AND p.`category_id` = :category_id
+			", [
 				'category_id' => $category->id
-			]);
+			], true);
+			$products = array_map(function ($product) {
+				return (new Product($product));
+			}, $products);
 		}
 
 		$this->view('index', [
