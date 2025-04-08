@@ -54,5 +54,7 @@
   "category": "Category",
   "price": "Price",
   "currency": "Currency",
-  "count": "Count"
+  "count": "Count",
+  "are you sure you want to remove the category": "Are you sure you want to remove the category",
+  "are you sure you want to remove the product": "Are you sure you want to remove the product"
 }

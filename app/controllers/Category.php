@@ -45,7 +45,11 @@ class Category extends Controller
 			'categories' => $categories,
 			'categoryPath' => (new \App\Models\Category())->getCategoryPath($category->id ?? 0),
 			'categoryTitle' => $category->title ?? null,
-			'products' => ($products ?? [])
+			'products' => ($products ?? []),
+			'assets' => [
+				'js' => 'product.js'
+			],
+			'cartProducts' => Cart::get()
 		]);
 	}
 }

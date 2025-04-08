@@ -4,6 +4,10 @@ sessionStart();
 
 date_default_timezone_set(TIMEZONE);
 
+if (!empty($_COOKIE['cartProducts'])) {
+	$_SESSION['cartProducts'] = (@json_decode($_COOKIE['cartProducts'], true) ?? []);
+}
+
 function isDev(): void
 {
 	if (DEV) {

@@ -1,4 +1,5 @@
-<?php use App\Utility\Request; ?>
+<?php use App\Controllers\Cart;
+use App\Utility\Request; ?>
 
 <!doctype html>
 <html lang="en">
@@ -42,8 +43,8 @@
             <!-- Корзина (в мобильной версии рядом с меню) -->
             <a class="nav-link position-relative d-lg-none me-3" href="/cart">
                 <i class="bi bi-cart3 fs-4"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    0 <!-- Здесь можно вставить динамическое количество товаров -->
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart">
+                    <?= count(Cart::get()) ?> <!-- Здесь можно вставить динамическое количество товаров -->
                 </span>
             </a>
 
@@ -71,8 +72,8 @@
                 <li class="nav-item ms-3 d-none d-lg-block">
                     <a class="nav-link position-relative" href="/cart">
                         <i class="bi bi-cart3 fs-4"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            0
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart">
+                            <?= count(Cart::get()) ?>
                         </span>
                     </a>
                 </li>

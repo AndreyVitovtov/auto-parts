@@ -39,7 +39,11 @@
             <h1 class="fw-bold"><?= $product->title ?></h1>
             <p class="text-muted"><?= $product->description ?></p>
             <h3 class="text"><?= $product->price ?> <?= $product->currency ?></h3>
-            <button class="btn btn-primary btn-lg mt-3">Купить</button>
+            <?php if(in_array($product->id, $cartProducts ?? [])): ?>
+                <button class="btn btn-secondary btn-lg mt-3 in-cart"><?= __('in cart') ?></button>
+            <?php else: ?>
+                <button class="btn btn-primary btn-lg mt-3 add-to-cart" data-id="<?= $product->id ?>"><?= __('buy') ?></button>
+            <?php endif; ?>
         </div>
     </div>
 </div>

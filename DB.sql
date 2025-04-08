@@ -73,6 +73,8 @@ CREATE TABLE `cities`
     `created_at`         DATETIME       DEFAULT CURRENT_TIMESTAMP
 );
 
+ALTER TABLE `cities` ADD INDEX (`name_ua`);
+
 CREATE TABLE `warehouses`
 (
     `id`                             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -98,6 +100,8 @@ CREATE TABLE `warehouses`
     `latitude`                       DECIMAL(18, 12) NOT NULL,
     `created_at`                     DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE `warehouses` ADD INDEX (`city_ref`);
 /******/
 
 INSERT INTO `currencies` (title, code)

@@ -21,6 +21,10 @@ class Product extends Controller
 			'title' => $product->title,
 			'product' => $product,
 			'categoryPath' => (new \App\Models\Category())->getCategoryPath($product->category_id ?? 0),
+			'assets' => [
+				'js' => 'product.js'
+			],
+			'cartProducts' => Cart::get()
 		]);
 	}
 }

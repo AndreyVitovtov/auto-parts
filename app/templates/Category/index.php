@@ -48,7 +48,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-size: cover;
+        background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
         overflow: hidden;
@@ -161,7 +161,11 @@
                                     <?= $product->price ?>
                                     <?= $product->currencyCode ?>
                                 </div>
-                                <button class="btn btn-primary btn-sm mt-2">Купить</button>
+                                <?php if(in_array($product->id, $cartProducts ?? [])): ?>
+                                    <button class="btn btn-secondary btn-sm mt-2 in-cart"><?= __('in cart') ?></button>
+                                <?php else: ?>
+                                    <button class="btn btn-primary btn-sm mt-2 add-to-cart" data-id="<?= $product->id ?>"><?= __('buy') ?></button>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </a>
